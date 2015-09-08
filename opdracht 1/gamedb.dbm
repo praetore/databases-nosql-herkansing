@@ -38,19 +38,19 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="player">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="47" y="266"/>
-	<column name="health">
+	<position x="46" y="266"/>
+	<column name="deaths">
 		<type name="integer"/>
 	</column>
 	<column name="score">
 		<type name="integer"/>
 	</column>
-	<column name="deaths">
+	<column name="health">
 		<type name="integer"/>
 	</column>
 
 	<customidxs object-type="column">
-		<object name="id_world" index="5"/>
+		<object name="id_world" index="8"/>
 	</customidxs>
 
 	<customidxs object-type="constraint">
@@ -68,7 +68,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</column>
 
 	<customidxs object-type="column">
-		<object name="id_world" index="5"/>
+		<object name="id_world" index="6"/>
 	</customidxs>
 
 	<customidxs object-type="constraint">
@@ -92,7 +92,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</column>
 
 	<customidxs object-type="column">
-		<object name="id_world" index="5"/>
+		<object name="id_world" index="8"/>
 	</customidxs>
 
 	<customidxs object-type="constraint">
@@ -158,11 +158,11 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</label>
 </relationship>
 
-<table name="damage">
+<table name="block_type">
 	<schema name="public"/>
 	<role name="postgres"/>
 	<position x="738" y="453"/>
-	<column name="id">
+	<column name="id" not-null="true">
 		<type name="serial"/>
 	</column>
 	<column name="speed_reduction">
@@ -174,6 +174,9 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="damage">
 		<type name="integer"/>
 	</column>
+	<constraint name="block_type_id" type="pk-constr" table="public.block_type">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
 
 	<customidxs object-type="column">
 		<object name="id_block" index="4"/>
@@ -181,7 +184,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 
 	<customidxs object-type="constraint">
 		<object name="block_fk" index="0"/>
-		<object name="damage_uq" index="1"/>
+		<object name="block_type_uq" index="2"/>
 	</customidxs>
 </table>
 
@@ -238,7 +241,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 src-fk-pattern="{st}_fk"
 	 custom-color="#9fe84e"
 	 src-table="public.block"
-	 dst-table="public.damage"
+	 dst-table="public.block_type"
 	 src-required="false" dst-required="false"/>
 
 </dbmodel>

@@ -12,8 +12,8 @@ ALTER TABLE public.game_object OWNER TO postgres;
 CREATE TABLE public.player(
 	health integer,
 	score integer,
-	deaths integer,
 	id_world integer,
+	deaths integer,
 	CONSTRAINT player_pk PRIMARY KEY (id)
 
 ) INHERITS(public.game_object)
@@ -32,8 +32,8 @@ ALTER TABLE public.coin OWNER TO postgres;
 CREATE TABLE public.enemy(
 	speed integer,
 	damage integer,
-	size integer,
 	id_world integer,
+	size integer,
 	CONSTRAINT enemy_pk PRIMARY KEY (id)
 
 ) INHERITS(public.game_object)
@@ -61,14 +61,16 @@ ALTER TABLE public.coin ADD CONSTRAINT world_fk FOREIGN KEY (id_world)
 REFERENCES public.world (id) MATCH FULL
 ON DELETE SET NULL ON UPDATE CASCADE;
 
-CREATE TABLE public.damage(
-	id serial,
+CREATE TABLE public.block_type(
+	id serial NOT NULL,
 	speed_reduction integer,
 	is_solid boolean,
 	damage integer,
-	id_block integer
+	id_block integer,
+	CONSTRAINT block_type_id PRIMARY KEY (id)
+
 );
-ALTER TABLE public.damage OWNER TO postgres;
+ALTER TABLE public.block_type OWNER TO postgres;
 
 CREATE TABLE public.block(
 	id_world integer,
@@ -82,8 +84,8 @@ ALTER TABLE public.block ADD CONSTRAINT world_fk FOREIGN KEY (id_world)
 REFERENCES public.world (id) MATCH FULL
 ON DELETE SET NULL ON UPDATE CASCADE;
 
-ALTER TABLE public.damage ADD CONSTRAINT block_fk FOREIGN KEY (id_block)
+ALTER TABLE public.block_type ADD CONSTRAINT block_fk FOREIGN KEY (id_block)
 REFERENCES public.block (id) MATCH FULL
 ON DELETE SET NULL ON UPDATE CASCADE;
 
-ALTER TABLE public.damage ADD CONSTRAINT damage_uq UNIQUE (id_block);
+ALTER TABLE public.block_type ADD CONSTRAINT block_type_uq UNIQUE (id_block);
